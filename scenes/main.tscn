@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://dmym3b30ju0na"]
+
+[ext_resource type="Script" uid="uid://c3jyura5gmi3" path="res://scripts/main.gd" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://bwcdf34jcwlrh" path="res://scenes/car.tscn" id="2_sugp2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
+size = Vector2(40, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
+size = Vector2(40, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
+size = Vector2(760, 280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85g3d"]
+size = Vector2(20, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_choun"]
+size = Vector2(20, 180)
+
+[node name="Main" type="Node2D" unique_id=1213951489]
+script = ExtResource("1_0wfyh")
+
+[node name="Track" type="StaticBody2D" parent="." unique_id=2089793499]
+
+[node name="Top" type="CollisionShape2D" parent="Track" unique_id=330623869]
+position = Vector2(640, 20)
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="Grass" type="ColorRect" parent="Track/Top" unique_id=956166607]
+offset_left = -640.0
+offset_top = -20.0
+offset_right = 640.0
+offset_bottom = 20.0
+color = Color(0.22, 0.48, 0.2, 1)
+
+[node name="Bottom" type="CollisionShape2D" parent="Track" unique_id=1231006157]
+position = Vector2(640, 700)
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="Grass" type="ColorRect" parent="Track/Bottom" unique_id=1164019489]
+offset_left = -640.0
+offset_top = -20.0
+offset_right = 640.0
+offset_bottom = 20.0
+color = Color(0.22, 0.48, 0.2, 1)
+
+[node name="Left" type="CollisionShape2D" parent="Track" unique_id=661330612]
+position = Vector2(20, 360)
+shape = SubResource("RectangleShape2D_tefeu")
+
+[node name="Grass" type="ColorRect" parent="Track/Left" unique_id=1750195656]
+offset_left = -20.0
+offset_top = -360.0
+offset_right = 20.0
+offset_bottom = 360.0
+color = Color(0.22, 0.48, 0.2, 1)
+
+[node name="Right" type="CollisionShape2D" parent="Track" unique_id=1499350121]
+position = Vector2(1260, 360)
+shape = SubResource("RectangleShape2D_o6xl0")
+
+[node name="Grass" type="ColorRect" parent="Track/Right" unique_id=493714182]
+offset_left = -20.0
+offset_top = -360.0
+offset_right = 20.0
+offset_bottom = 360.0
+color = Color(0.22, 0.48, 0.2, 1)
+
+[node name="Island" type="CollisionShape2D" parent="Track" unique_id=1477938062]
+position = Vector2(640, 360)
+shape = SubResource("RectangleShape2D_tipki")
+
+[node name="Grass" type="ColorRect" parent="Track/Island" unique_id=1519905314]
+offset_left = -380.0
+offset_top = -140.0
+offset_right = 380.0
+offset_bottom = 140.0
+color = Color(0.22, 0.48, 0.2, 1)
+
+[node name="Finish" type="Area2D" parent="." unique_id=1365934212]
+position = Vector2(640, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Finish" unique_id=226114624]
+shape = SubResource("RectangleShape2D_85g3d")
+
+[node name="Line" type="ColorRect" parent="Finish" unique_id=782116736]
+offset_left = -10.0
+offset_top = -90.0
+offset_right = 10.0
+offset_bottom = 90.0
+color = Color(0.95, 0.95, 0.95, 1)
+
+[node name="Checkpoint" type="Area2D" parent="." unique_id=1580244481]
+position = Vector2(640, 130)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint" unique_id=467348559]
+shape = SubResource("RectangleShape2D_choun")
+
+[node name="Car" parent="." unique_id=433827001 instance=ExtResource("2_sugp2")]
+position = Vector2(520, 590)
+
+[node name="StartTimer" type="Timer" parent="." unique_id=334291025]
+wait_time = 3.0
+one_shot = true
+
+[node name="TimeLabel" type="Label" parent="." unique_id=1778948356]
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 360.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 28
+text = "Tiempo: 0.00 s"
+
+[node name="CrashLabel" type="Label" parent="." unique_id=1764950876]
+offset_left = 60.0
+offset_top = 88.0
+offset_right = 360.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 22
+text = "Choques: 0"
+
+[node name="StatusLabel" type="Label" parent="." unique_id=99862016]
+offset_left = 280.0
+offset_top = 300.0
+offset_right = 1000.0
+offset_bottom = 420.0
+theme_override_font_sizes/font_size = 40
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Finish" to="." method="_on_finish_body_entered"]
+[connection signal="body_entered" from="Checkpoint" to="." method="_on_checkpoint_body_entered"]
+[connection signal="crashed" from="Car" to="." method="_on_car_crashed"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
